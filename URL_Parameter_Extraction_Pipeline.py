@@ -5,20 +5,18 @@ from multiprocessing import cpu_count
 from multiprocessing.pool import ThreadPool
 import re
 from urllib.parse import urlparse, parse_qs
-!pip install tldextract
 import tldextract
 import idna
 import unicodedata
 import ssl
 import socket
 from datetime import datetime, timezone
-!pip install whois
 import whois
 import time
 import numpy as np
 
 class URLFeatureExtractor(BaseEstimator, TransformerMixin):
-    def _init_(self, num_workers=None):
+    def __init__(self, num_workers=None):
         self.num_workers = num_workers
         self.columns = [
             # total url related parameters
@@ -92,7 +90,7 @@ class URLFeatureExtractor(BaseEstimator, TransformerMixin):
         ]
         
         # Initialize shorteners list (you'll need to provide this)
-        self.shortener_domains = eval(open('/content/url_shortener_extensions.txt','r').read())# Initialize with your shortener domains
+        self.shortener_domains = eval(open('url_shortener_extensions.txt','r').read())# Initialize with your shortener domains
 
     def fit(self, X, y=None):
         return self
@@ -223,7 +221,7 @@ class URLFeatureExtractor(BaseEstimator, TransformerMixin):
         features = self._analyze_string_metrics(domain)
         features = {f"{key}_Domain": value for key, value in features.items()}
         features['Has_Ip'] = bool(re.match(r"\d+\.\d+\.\d+\.\d+", domain))
-        features['Domain_Age'] = self._get_domain_age(domain + '.' + suffix)
+        # features['Domain_Age'] = self._get_domain_age(domain + '.' + suffix)
         return features
     
     def _process_path(self, path):
@@ -326,11 +324,4 @@ class URLFeatureExtractor(BaseEstimator, TransformerMixin):
         except Exception:
             return -1
 
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline, FeatureUnion
-from sklearn.preprocessing import FunctionTransformer
-pipeline = Pipeline([
-    ('feature_extractor', URLFeatureExtractor()),
-    #other filters...
-    ('classifier', RandomForestClassifier())
-])
+
