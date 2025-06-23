@@ -1,0 +1,5 @@
+['URL_Length', 'Url_Shortening', 'entropy_subdomain',
+       'entropy_domain', 'Has_Suspicious_Params', 'Num_Languages',
+       'Uses_HTTPS', 'User_Info_Length', 'Num_Subdomains', 'Length_Subdomain',
+       'Length_Domain', 'TLD', 'Length_Path', 'Length_Query',
+       'Num_Query_Params]
